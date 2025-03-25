@@ -3,6 +3,9 @@ package com.example.todoapp.controller;
 import com.example.todoapp.model.Task;
 import com.example.todoapp.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,12 +18,8 @@ import java.util.List;
 @RequestMapping("/api/tasks")
 public class TaskController {
 
-    private final TaskService taskService;
-
     @Autowired
-    public TaskController(TaskService taskService) {
-        this.taskService = taskService;
-    }
+    private TaskService taskService;
 
     @GetMapping
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
@@ -74,4 +73,64 @@ public class TaskController {
     public ResponseEntity<List<Task>> searchTasks(@RequestParam String title) {
         return ResponseEntity.ok(taskService.searchTasksByTitle(title));
     }
+
+
+    // New pagination endpoint
+    @GetMapping("/paginated")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<Page<Task>> getPaginatedTasks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortDirection
+    ) {
+        Sort sort = Sort.by(
+                sortDirection.equalsIgnoreCase("asc") ?
+                        Sort.Direction.ASC : Sort.Direction.DESC,
+                sortBy
+        );
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+        return ResponseEntity.ok(taskService.getPaginatedTasks(pageRequest));
+    }
+
+    // Paginated tasks by status
+    @GetMapping("/status/{status}/paginated")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<Page<Task>> getPaginatedTasksByStatus(
+            @PathVariable String status,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        return ResponseEntity.ok(taskService.getPaginatedTasksByStatus(status, pageRequest));
+    }
+
+    // Enhanced search endpoint
+    @GetMapping("/search/advanced")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<List<Task>> advancedSearchTasks(@RequestParam String query) {
+        return ResponseEntity.ok(taskService.searchTasksFullText(query));
+    }
+
+    @PostMapping("/{id}/soft-delete")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public ResponseEntity<Void> softDeleteTask(@PathVariable String id) {
+        taskService.softDeleteTask(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/restore")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> restoreTask(@PathVariable String id) {
+        taskService.restoreTask(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}/permanent")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> permanentDeleteTask(@PathVariable String id) {
+        taskService.permanentDeleteTask(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
