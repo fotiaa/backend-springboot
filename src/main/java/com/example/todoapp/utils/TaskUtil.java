@@ -1,7 +1,7 @@
 package com.example.todoapp.utils;
 
 import com.example.todoapp.model.User;
-import com.example.todoapp.service.UserService;
+import com.example.todoapp.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

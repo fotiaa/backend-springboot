@@ -1,7 +1,7 @@
-package com.example.todoapp.controller;
+package com.example.todoapp.controller.user;
 
 import com.example.todoapp.model.User;
-import com.example.todoapp.service.UserService;
+import com.example.todoapp.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
