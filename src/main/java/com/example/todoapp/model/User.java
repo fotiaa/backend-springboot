@@ -1,5 +1,8 @@
 package com.example.todoapp.model;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,9 +31,6 @@ public class User {
 
     private Set<String> roles = new HashSet<>();
 
-    public User(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
+    public User(@NotBlank @Size(min = 3, max = 20) String username, @NotBlank @Size(max = 50) @Email String email, String encode) {
     }
 }

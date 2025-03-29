@@ -28,6 +28,8 @@ public class Task {
     private LocalDateTime updatedAt;
     private boolean deleted = false;
 
+    private String createdBy;
+
     public enum TaskStatus {
         TODO, IN_PROGRESS, COMPLETED
     }

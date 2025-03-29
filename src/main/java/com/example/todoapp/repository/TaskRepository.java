@@ -12,27 +12,37 @@ import java.util.Optional;
 
 @Repository
 public interface TaskRepository extends MongoRepository<Task, String> {
-    // Existing methods
     List<Task> findByStatus(String status);
     List<Task> findByTitleContainingIgnoreCase(String title);
 
-    // New methods for Phase 3
-    // Paginated task retrieval
+    // New methods to find tasks by creator
+    List<Task> findByCreatedByAndDeletedFalse(String userId);
+    Page<Task> findByCreatedBy(String userId, Pageable pageable);
+    Page<Task> findByCreatedByAndStatus(String userId, String status, Pageable pageable);
+    List<Task> findByCreatedByAndStatusAndDeletedFalse(String userId, String status);
+
+    @Query(value = "{ $and: [ " +
+            "{ 'createdBy': ?0 }, " +
+            "{ $or: [ " +
+            "{ 'title': { $regex: ?1, $options: 'i' } }, " +
+            "{ 'description': { $regex: ?1, $options: 'i' } } " +
+            "] } ] }")
+    List<Task> searchTasksByUser(String userId, String searchTerm);
+
+    // Existing methods
     Page<Task> findAll(Pageable pageable);
 
-    // Full-text search across title and description
     @Query(value = "{ $or: [ " +
             "{ 'title': { $regex: ?0, $options: 'i' } }, " +
             "{ 'description': { $regex: ?0, $options: 'i' } } " +
             "] }")
     List<Task> searchTasks(String searchTerm);
 
-    // Find tasks by status with pagination
     Page<Task> findByStatus(String status, Pageable pageable);
-
-    // Find non-deleted tasks
     List<Task> findByDeletedFalse();
-
-    // Optional specific task by ID excluding deleted
     Optional<Task> findByIdAndDeletedFalse(String id);
+
+    // New method to find task by ID and user ID (for authorization)
+    Optional<Task> findByIdAndCreatedByAndDeletedFalse(String id, String userId);
+
 }
