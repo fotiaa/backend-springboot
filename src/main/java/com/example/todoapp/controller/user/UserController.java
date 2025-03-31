@@ -1,7 +1,7 @@
-package com.example.todoapp.controller;
+package com.example.todoapp.controller.user;
 
 import com.example.todoapp.model.User;
-import com.example.todoapp.service.UserService;
+import com.example.todoapp.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -39,11 +39,13 @@ public class UserController {
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<User> getCurrentUser(@RequestParam String username) {
-        return userService.getUserByUsername(username)
+        ResponseEntity<User> response = userService.getUserByUsername(username)
                 .map(user -> {
                     user.setPassword(null); // Remove sensitive information
                     return ResponseEntity.ok(user);
                 })
                 .orElse(ResponseEntity.notFound().build());
+
+        return response;
     }
 }

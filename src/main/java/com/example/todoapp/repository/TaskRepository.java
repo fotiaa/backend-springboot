@@ -15,7 +15,7 @@ public interface TaskRepository extends MongoRepository<Task, String> {
     List<Task> findByStatus(String status);
     List<Task> findByTitleContainingIgnoreCase(String title);
 
-    // New methods to find tasks by creator
+    // User-specific methods
     List<Task> findByCreatedByAndDeletedFalse(String userId);
     Page<Task> findByCreatedBy(String userId, Pageable pageable);
     Page<Task> findByCreatedByAndStatus(String userId, String status, Pageable pageable);
@@ -29,7 +29,7 @@ public interface TaskRepository extends MongoRepository<Task, String> {
             "] } ] }")
     List<Task> searchTasksByUser(String userId, String searchTerm);
 
-    // Existing methods
+    // Admin methods
     Page<Task> findAll(Pageable pageable);
 
     @Query(value = "{ $or: [ " +
@@ -42,7 +42,6 @@ public interface TaskRepository extends MongoRepository<Task, String> {
     List<Task> findByDeletedFalse();
     Optional<Task> findByIdAndDeletedFalse(String id);
 
-    // New method to find task by ID and user ID (for authorization)
+    // Authorization-specific methods
     Optional<Task> findByIdAndCreatedByAndDeletedFalse(String id, String userId);
-
 }
