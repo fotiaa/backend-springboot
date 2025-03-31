@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task createTask(Task task, String userId) {
         task.setCreatedBy(userId);
+        task.setCreatedAt(LocalDateTime.now());
         task.setDeleted(false);
         return taskRepository.save(task);
     }
@@ -40,8 +42,7 @@ public class TaskServiceImpl implements TaskService {
                     existingTask.setTitle(task.getTitle());
                     existingTask.setDescription(task.getDescription());
                     existingTask.setStatus(task.getStatus());
-                    existingTask.setDueDate(task.getDueDate());
-                    existingTask.setPriority(task.getPriority());
+                    existingTask.setUpdatedAt(LocalDateTime.now());
                     return taskRepository.save(existingTask);
                 })
                 .orElseThrow(() -> new RuntimeException("Task not found or not authorized"));

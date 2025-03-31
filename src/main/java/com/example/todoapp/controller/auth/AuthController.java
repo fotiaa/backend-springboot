@@ -5,6 +5,7 @@ import com.example.todoapp.payload.JwtAuthResponse;
 import com.example.todoapp.payload.LoginRequest;
 import com.example.todoapp.payload.SignupRequest;
 import com.example.todoapp.security.JwtTokenProvider;
+import com.example.todoapp.service.auth.AuthServiceImpl;
 import com.example.todoapp.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private AuthServiceImpl authService;
 
     @Autowired
     private UserService userService;
@@ -31,12 +32,7 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()
-                )
-        );
+        Authentication authentication = authService.authenticateUser(loginRequest);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);

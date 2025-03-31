@@ -39,11 +39,13 @@ public class UserController {
     @GetMapping("/me")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<User> getCurrentUser(@RequestParam String username) {
-        return userService.getUserByUsername(username)
+        ResponseEntity<User> response = userService.getUserByUsername(username)
                 .map(user -> {
                     user.setPassword(null); // Remove sensitive information
                     return ResponseEntity.ok(user);
                 })
                 .orElse(ResponseEntity.notFound().build());
+
+        return response;
     }
 }

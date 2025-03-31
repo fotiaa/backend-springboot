@@ -19,46 +19,7 @@ import java.util.Set;
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtTokenProvider tokenProvider;
-
-    @Override
-    public User registerUser(SignupRequest signupRequest) {
-        // Create new user's account
-        User user = new User(
-                signupRequest.getUsername(),
-                signupRequest.getEmail(),
-                passwordEncoder.encode(signupRequest.getPassword())
-        );
-
-        Set<String> strRoles = signupRequest.getRoles();
-        Set<String> roles = new HashSet<>();
-
-        if (strRoles == null || strRoles.isEmpty()) {
-            roles.add("USER");
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "ADMIN":
-                        roles.add("ADMIN");
-                        break;
-                    default:
-                        roles.add("USER");
-                }
-            });
-        }
-
-        user.setRoles(roles);
-        return userRepository.save(user);
-    }
 
     @Override
     public Authentication authenticateUser(LoginRequest loginRequest) {
@@ -70,10 +31,5 @@ public class AuthServiceImpl implements AuthService {
         );
 
         return authentication;
-    }
-
-    @Override
-    public String generateJwtToken(Authentication authentication) {
-        return tokenProvider.generateToken(authentication);
     }
 }
