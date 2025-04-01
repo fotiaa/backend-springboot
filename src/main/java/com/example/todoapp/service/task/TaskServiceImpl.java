@@ -107,7 +107,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Task> searchUserTasksByTitle(String title, String userId) {
         // This is a search operation, so it's better not to cache the results
-        return taskRepository.findByTitleContainingIgnoreCaseAndUserIdAndDeletedFalse(title, userId);
+        return taskRepository.findByTitleContainingIgnoreCaseAndCreatedByAndDeletedFalse(title, userId);
     }
 
     @Override

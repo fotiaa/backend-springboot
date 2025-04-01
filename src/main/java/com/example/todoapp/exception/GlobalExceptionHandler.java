@@ -123,16 +123,4 @@ public class GlobalExceptionHandler {
         private String message;
         private long timestamp;
     }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleGenericException(Exception ex) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now().toString());
-        body.put("message", "An unexpected error occurred");
-        body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        body.put("error", ex.getMessage());
-
-        return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
 }

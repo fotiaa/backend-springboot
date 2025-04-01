@@ -45,7 +45,7 @@ public interface TaskRepository extends MongoRepository<Task, String> {
     // Authorization-specific methods
     Optional<Task> findByIdAndCreatedByAndDeletedFalse(String id, String userId);
 
-    List<Task> findByTitleContainingIgnoreCaseAndUserIdAndDeletedFalse(String title, String userId);
+    List<Task> findByTitleContainingIgnoreCaseAndCreatedByAndDeletedFalse(String title, String userId);
 
     Page<Task> findByStatusAndCreatedByAndDeletedFalse(String status, String userId, Pageable pageable);
 }
