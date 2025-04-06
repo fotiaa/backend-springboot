@@ -18,7 +18,7 @@ public interface TaskRepository extends MongoRepository<Task, String> {
     // User-specific methods
     List<Task> findByCreatedByAndDeletedFalse(String userId);
     Page<Task> findByCreatedBy(String userId, Pageable pageable);
-    Page<Task> findByCreatedByAndStatus(String userId, String status, Pageable pageable);
+    Page<Task> findByCreatedByAndDeletedFalse(String userId, Pageable pageable);
     List<Task> findByCreatedByAndStatusAndDeletedFalse(String userId, String status);
 
     @Query(value = "{ $and: [ " +
@@ -27,7 +27,7 @@ public interface TaskRepository extends MongoRepository<Task, String> {
             "{ 'title': { $regex: ?1, $options: 'i' } }, " +
             "{ 'description': { $regex: ?1, $options: 'i' } } " +
             "] } ] }")
-    List<Task> searchTasksByUser(String userId, String searchTerm);
+    List<Task> searchTasksBy(String userId, String searchTerm);
 
     // Admin methods
     Page<Task> findAll(Pageable pageable);
@@ -44,4 +44,8 @@ public interface TaskRepository extends MongoRepository<Task, String> {
 
     // Authorization-specific methods
     Optional<Task> findByIdAndCreatedByAndDeletedFalse(String id, String userId);
+
+    List<Task> findByTitleContainingIgnoreCaseAndCreatedByAndDeletedFalse(String title, String userId);
+
+    Page<Task> findByStatusAndCreatedByAndDeletedFalse(String status, String userId, Pageable pageable);
 }
