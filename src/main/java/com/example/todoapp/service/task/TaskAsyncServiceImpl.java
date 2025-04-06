@@ -26,9 +26,6 @@ public class TaskAsyncServiceImpl implements TaskAsyncService {
         task.setUpdatedAt(LocalDateTime.now());
         Task savedTask = taskRepository.save(task);
 
-        // Invalidate relevant caches
-        cacheUtil.invalidateCreationCaches(userId, String.valueOf(task.getStatus()));
-
         // Cache the newly created task
         cacheUtil.cacheTask(savedTask.getId(), savedTask);
 
