@@ -1,15 +1,10 @@
 package com.example.todoapp.service.task;
 
 import com.example.todoapp.model.Task;
-import com.example.todoapp.model.User;
-import com.example.todoapp.notification.dto.EmailDetails;
-import com.example.todoapp.notification.dto.NotificationRequest;
-import com.example.todoapp.notification.dto.SmsDetails;
 import com.example.todoapp.notification.service.NotificationService;
 import com.example.todoapp.repository.TaskRepository;
 import com.example.todoapp.utils.CacheUtil;
 import com.example.todoapp.utils.NotificationUtil;
-import com.example.todoapp.websocket.WebSocketMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +27,7 @@ public class TaskServiceImpl implements TaskService {
     private CacheUtil cacheUtil;
     
     @Autowired
-    private NotificationUtil notificationUtils;
+    private NotificationUtil notificationUtil;
 
     @Autowired
     private NotificationService notificationService;
@@ -79,7 +74,7 @@ public class TaskServiceImpl implements TaskService {
             Task createdTask = future.get();
 
             // Send WebSocket notification
-            notificationUtils.sendTaskUpdateNotification(createdTask, "CREATED", userId);
+            notificationUtil.sendTaskUpdateNotification(createdTask, "CREATED", userId);
 
             return createdTask;
         } catch (Exception e) {
@@ -95,7 +90,7 @@ public class TaskServiceImpl implements TaskService {
             Task updatedTask = future.get();
 
             // Send WebSocket notification
-            notificationUtils.sendTaskUpdateNotification(updatedTask, "UPDATED", userId);
+            notificationUtil.sendTaskUpdateNotification(updatedTask, "UPDATED", userId);
 
             return updatedTask;
         } catch (Exception e) {
@@ -178,7 +173,7 @@ public class TaskServiceImpl implements TaskService {
         taskAsyncService.processSoftDeleteAsync(id, userId);
 
         // Send notification if task was found
-        taskOpt.ifPresent(task -> notificationUtils.sendTaskUpdateNotification(task, "DELETED", userId));
+        taskOpt.ifPresent(task -> notificationUtil.sendTaskUpdateNotification(task, "DELETED", userId));
     }
 
     @Override

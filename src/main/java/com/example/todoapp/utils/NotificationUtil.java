@@ -13,9 +13,11 @@ import com.example.todoapp.service.task.TaskAsyncService;
 import com.example.todoapp.websocket.WebSocketMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+@Component
 public class NotificationUtil {
     @Autowired
     private TaskRepository taskRepository;
@@ -26,7 +28,6 @@ public class NotificationUtil {
     @Autowired
     private CacheUtil cacheUtil;
 
-    // New autowired components
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
 

@@ -1,5 +1,6 @@
 package com.example.todoapp.config;
 
+import com.mongodb.client.MongoClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,10 @@ public class MongoConfig {
 
     @Bean
     public MongoDatabaseFactory mongoDatabaseFactory() {
-        return new SimpleMongoClientDatabaseFactory(MongoClients.create(connectionString), databaseName);
+        MongoClient mongoClient = MongoClients.create(connectionString);
+        // Register shutdown hook to clean up resources when the app stops
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> mongoClient.close()));
+        return new SimpleMongoClientDatabaseFactory(mongoClient, databaseName);
     }
 
     @Bean

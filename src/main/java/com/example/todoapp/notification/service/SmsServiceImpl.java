@@ -1,6 +1,9 @@
 package com.example.todoapp.notification.service;
 
 import com.example.todoapp.notification.dto.SmsDetails;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,21 +26,17 @@ public class SmsServiceImpl implements SmsService {
     @Override
     public void sendSms(SmsDetails details) {
         try {
-            // For actual implementation, you would use Twilio API like this:
-            /*
+            // Initialize Twilio SDK
             Twilio.init(accountSid, authToken);
-            Message message = Message.creator(
-                    new PhoneNumber(details.getPhoneNumber()),
-                    new PhoneNumber(twilioPhoneNumber),
-                    details.getMessage())
-                .create();
-            logger.info("SMS sent, SID: {}", message.getSid());
-            */
 
-            // For now, just log that we would send a message
-            logger.info("SMS would be sent to {} with message: {}",
-                    details.getPhoneNumber(),
-                    details.getMessage());
+            // Create and send the SMS
+            Message message = Message.creator(
+                    new PhoneNumber(details.getPhoneNumber()), // To
+                    new PhoneNumber(twilioPhoneNumber),        // From
+                    details.getMessage()                       // Message
+            ).create();
+
+            logger.info("SMS sent successfully! SID: {}", message.getSid());
 
         } catch (Exception e) {
             logger.error("Error sending SMS: {}", e.getMessage(), e);
