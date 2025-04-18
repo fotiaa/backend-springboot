@@ -1,17 +1,23 @@
 package com.example.todoapp.controller.task;
 
 import com.example.todoapp.model.Task;
+import com.example.todoapp.model.User;
 import com.example.todoapp.service.task.TaskService;
 import com.example.todoapp.utils.TaskUtil;
+import com.example.todoapp.websocket.WebSocketMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -23,6 +29,18 @@ public class TaskController {
 
     @Autowired
     private TaskUtil taskUtil;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
+    @MessageMapping("/tasks")
+    @SendToUser("/queue/notifications")
+    public WebSocketMessage processTaskMessage(WebSocketMessage message, Principal principal) {
+        // Process incoming WebSocket messages from clients
+        // This method handles any client-side events that need to be processed
+        // For now, just echo the message back to the client
+        return message;
+    }
 
     @GetMapping
     @PreAuthorize("hasRole('USER')")

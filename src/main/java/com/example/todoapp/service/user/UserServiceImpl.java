@@ -1,6 +1,7 @@
 package com.example.todoapp.service.user;
 
 import com.example.todoapp.model.User;
+import com.example.todoapp.notification.dto.NotificationPreferences;
 import com.example.todoapp.payload.SignupRequest;
 import com.example.todoapp.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,5 +75,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public User updateUserNotificationPreferences(String userId, NotificationPreferences preferences) {
+        // Find the user
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Update notification preferences
+        user.setNotificationPreferences(preferences);
+
+        // Save and return the updated user
+        return userRepository.save(user);
     }
 }

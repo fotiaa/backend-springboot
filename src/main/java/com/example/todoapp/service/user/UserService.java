@@ -1,6 +1,7 @@
 package com.example.todoapp.service.user;
 
 import com.example.todoapp.model.User;
+import com.example.todoapp.notification.dto.NotificationPreferences;
 import com.example.todoapp.payload.SignupRequest;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface UserService {
     Optional<User> getUserByUsername(String username);
     boolean existsByUsername(String username);
     boolean existsByEmail(String email);
+    User updateUserNotificationPreferences(String userId, NotificationPreferences preferences);
 }

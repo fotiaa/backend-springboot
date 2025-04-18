@@ -1,6 +1,7 @@
 package com.example.todoapp.service.task;
 
 import com.example.todoapp.model.Task;
+import com.example.todoapp.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

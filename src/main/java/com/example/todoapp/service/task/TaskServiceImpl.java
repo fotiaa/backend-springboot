@@ -1,8 +1,15 @@
 package com.example.todoapp.service.task;
 
 import com.example.todoapp.model.Task;
+import com.example.todoapp.model.User;
+import com.example.todoapp.notification.dto.EmailDetails;
+import com.example.todoapp.notification.dto.NotificationRequest;
+import com.example.todoapp.notification.dto.SmsDetails;
+import com.example.todoapp.notification.service.NotificationService;
 import com.example.todoapp.repository.TaskRepository;
 import com.example.todoapp.utils.CacheUtil;
+import com.example.todoapp.utils.NotificationUtil;
+import com.example.todoapp.websocket.WebSocketMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +30,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Autowired
     private CacheUtil cacheUtil;
+    
+    @Autowired
+    private NotificationUtil notificationUtils;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Override
     public List<Task> getUserTasks(String userId) {
@@ -60,12 +73,15 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task createTask(Task task, String userId) {
-        // Use async service for task creation
         CompletableFuture<Task> future = taskAsyncService.processTaskCreationAsync(task, userId);
 
-        // For API response, we'll wait for the result
         try {
-            return future.get();
+            Task createdTask = future.get();
+
+            // Send WebSocket notification
+            notificationUtils.sendTaskUpdateNotification(createdTask, "CREATED", userId);
+
+            return createdTask;
         } catch (Exception e) {
             throw new RuntimeException("Error creating task: " + e.getMessage(), e);
         }
@@ -73,12 +89,15 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task updateTask(String id, Task task, String userId) {
-        // Use async service for task update
         CompletableFuture<Task> future = taskAsyncService.processTaskUpdateAsync(id, task, userId);
 
-        // For API response, we'll wait for the result
         try {
-            return future.get();
+            Task updatedTask = future.get();
+
+            // Send WebSocket notification
+            notificationUtils.sendTaskUpdateNotification(updatedTask, "UPDATED", userId);
+
+            return updatedTask;
         } catch (Exception e) {
             if (e.getCause() instanceof RuntimeException) {
                 throw (RuntimeException) e.getCause();
@@ -146,18 +165,25 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> searchUserTasksFullText(String searchTerm, String userId) {
-        // This is a search operation, so it's better not to cache the results
+        // This is a search operation, so we aren't cache the results
         return taskRepository.searchTasksBy(searchTerm, userId);
     }
 
     @Override
     public void softDeleteTask(String id, String userId) {
+        // Get the task before deletion for notification
+        Optional<Task> taskOpt = getUserTaskById(id, userId);
+
         // Use async service for task deletion
         taskAsyncService.processSoftDeleteAsync(id, userId);
+
+        // Send notification if task was found
+        taskOpt.ifPresent(task -> notificationUtils.sendTaskUpdateNotification(task, "DELETED", userId));
     }
 
     @Override
     public void clearUserCaches(String userId) {
         cacheUtil.clearUserCaches(userId);
     }
+
 }

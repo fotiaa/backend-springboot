@@ -1,6 +1,8 @@
 package com.example.todoapp.controller.task;
 
 import com.example.todoapp.model.Task;
+import com.example.todoapp.notification.dto.NotificationRequest;
+import com.example.todoapp.notification.service.NotificationService;
 import com.example.todoapp.service.task.AdminTaskService;
 import com.example.todoapp.service.task.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,9 @@ public class AdminTaskController {
 
     @Autowired
     private AdminTaskService adminTaskService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping("/all")
     public ResponseEntity<List<Task>> getAllTasks() {
@@ -100,5 +105,12 @@ public class AdminTaskController {
     public ResponseEntity<Void> permanentDeleteTask(@PathVariable String id) {
         adminTaskService.permanentDeleteTask(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> sendNotification(@RequestBody NotificationRequest request) {
+        notificationService.processNotification(request);
+        return ResponseEntity.ok("Notification sent successfully");
     }
 }

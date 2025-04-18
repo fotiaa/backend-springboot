@@ -1,5 +1,6 @@
 package com.example.todoapp.model;
 
+import com.example.todoapp.notification.dto.NotificationPreferences;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -35,6 +36,11 @@ public class User {
     @NotBlank
     @Size(min = 6, max = 120)
     private String password;
+
+    @Size(max = 15)
+    private String phoneNumber;
+
+    private NotificationPreferences notificationPreferences = new NotificationPreferences();
 
     private Set<String> roles = new HashSet<>();
 
