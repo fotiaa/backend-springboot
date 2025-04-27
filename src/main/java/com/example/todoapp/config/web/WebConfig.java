@@ -1,6 +1,6 @@
-package com.example.todoapp.config;
+package com.example.todoapp.config.web;
 
-import com.example.todoapp.security.RateLimitInterceptor;
+import com.example.todoapp.security.throttling.RateLimitInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

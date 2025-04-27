@@ -1,4 +1,4 @@
-package com.example.todoapp.config;
+package com.example.todoapp.config.rate_limit;
 
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;

@@ -1,4 +1,4 @@
-package com.example.todoapp.config;
+package com.example.todoapp.config.messaging;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

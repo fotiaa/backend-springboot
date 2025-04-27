@@ -1,4 +1,4 @@
-package com.example.todoapp.config;
+package com.example.todoapp.config.messaging;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

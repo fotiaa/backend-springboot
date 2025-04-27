@@ -1,4 +1,4 @@
-package com.example.todoapp.security;
+package com.example.todoapp.security.auth;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

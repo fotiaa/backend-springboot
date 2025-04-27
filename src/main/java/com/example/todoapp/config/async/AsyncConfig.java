@@ -1,4 +1,4 @@
-package com.example.todoapp.config;
+package com.example.todoapp.config.async;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

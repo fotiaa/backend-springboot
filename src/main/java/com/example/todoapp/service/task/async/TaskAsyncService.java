@@ -1,4 +1,4 @@
-package com.example.todoapp.service.task;
+package com.example.todoapp.service.task.async;
 
 import com.example.todoapp.model.Task;
 

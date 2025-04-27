@@ -1,4 +1,4 @@
-package com.example.todoapp.notification.service;
+package com.example.todoapp.notification.service.sms;
 
 import com.example.todoapp.notification.dto.SmsDetails;
 import com.twilio.Twilio;

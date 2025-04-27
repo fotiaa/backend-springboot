@@ -1,4 +1,4 @@
-package com.example.todoapp.notification.service;
+package com.example.todoapp.notification.service.notification;
 
 import com.example.todoapp.notification.dto.NotificationRequest;
 

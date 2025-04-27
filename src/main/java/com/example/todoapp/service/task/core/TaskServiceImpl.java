@@ -1,8 +1,9 @@
-package com.example.todoapp.service.task;
+package com.example.todoapp.service.task.core;
 
 import com.example.todoapp.model.Task;
-import com.example.todoapp.notification.service.NotificationService;
+import com.example.todoapp.notification.service.notification.NotificationService;
 import com.example.todoapp.repository.TaskRepository;
+import com.example.todoapp.service.task.async.TaskAsyncService;
 import com.example.todoapp.utils.CacheUtil;
 import com.example.todoapp.utils.NotificationUtil;
 import org.springframework.beans.factory.annotation.Autowired;

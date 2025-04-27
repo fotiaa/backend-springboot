@@ -1,8 +1,7 @@
 package com.example.todoapp.controller.task;
 
 import com.example.todoapp.model.Task;
-import com.example.todoapp.model.User;
-import com.example.todoapp.service.task.TaskService;
+import com.example.todoapp.service.task.core.TaskService;
 import com.example.todoapp.utils.TaskUtil;
 import com.example.todoapp.websocket.WebSocketMessage;
 import org.springframework.beans.factory.annotation.Autowired;

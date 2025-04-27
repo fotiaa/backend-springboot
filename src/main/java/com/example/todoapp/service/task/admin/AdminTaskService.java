@@ -1,4 +1,4 @@
-package com.example.todoapp.service.task;
+package com.example.todoapp.service.task.admin;
 
 import com.example.todoapp.model.Task;
 import org.springframework.data.domain.Page;

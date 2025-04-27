@@ -1,8 +1,10 @@
-package com.example.todoapp.notification.service;
+package com.example.todoapp.notification.service.notification;
 
 import com.example.todoapp.notification.dto.EmailDetails;
 import com.example.todoapp.notification.dto.NotificationRequest;
 import com.example.todoapp.notification.dto.SmsDetails;
+import com.example.todoapp.notification.service.sms.SmsService;
+import com.example.todoapp.notification.service.email.EmailService;
 import com.example.todoapp.websocket.TaskWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,12 +1,10 @@
-package com.example.todoapp.service.task;
+package com.example.todoapp.service.task.admin;
 
 import com.example.todoapp.model.Task;
 import com.example.todoapp.repository.TaskRepository;
-import com.example.todoapp.service.cache.CacheService;
+import com.example.todoapp.service.task.async.TaskAsyncService;
 import com.example.todoapp.utils.CacheUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class AdminTaskServiceImpl implements AdminTaskService {

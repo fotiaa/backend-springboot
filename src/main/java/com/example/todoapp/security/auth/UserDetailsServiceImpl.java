@@ -1,4 +1,4 @@
-package com.example.todoapp.security;
+package com.example.todoapp.security.auth;
 
 import com.example.todoapp.model.User;
 import com.example.todoapp.repository.UserRepository;

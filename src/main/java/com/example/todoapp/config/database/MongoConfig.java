@@ -1,4 +1,4 @@
-package com.example.todoapp.config;
+package com.example.todoapp.config.database;
 
 import com.mongodb.client.MongoClient;
 import org.springframework.beans.factory.annotation.Value;

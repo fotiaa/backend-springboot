@@ -1,8 +1,8 @@
-package com.example.todoapp.config;
+package com.example.todoapp.config.security;
 
-import com.example.todoapp.security.JwtAuthenticationEntryPoint;
-import com.example.todoapp.security.JwtAuthenticationFilter;
-import com.example.todoapp.security.UserDetailsServiceImpl;
+import com.example.todoapp.security.auth.JwtAuthenticationEntryPoint;
+import com.example.todoapp.security.auth.JwtAuthenticationFilter;
+import com.example.todoapp.security.auth.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

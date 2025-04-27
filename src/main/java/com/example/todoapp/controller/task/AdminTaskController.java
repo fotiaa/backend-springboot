@@ -2,9 +2,8 @@ package com.example.todoapp.controller.task;
 
 import com.example.todoapp.model.Task;
 import com.example.todoapp.notification.dto.NotificationRequest;
-import com.example.todoapp.notification.service.NotificationService;
-import com.example.todoapp.service.task.AdminTaskService;
-import com.example.todoapp.service.task.TaskService;
+import com.example.todoapp.notification.service.notification.NotificationService;
+import com.example.todoapp.service.task.admin.AdminTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

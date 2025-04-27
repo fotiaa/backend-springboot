@@ -1,6 +1,6 @@
-package com.example.todoapp.security;
+package com.example.todoapp.security.throttling;
 
-import com.example.todoapp.config.RateLimitConfig;
+import com.example.todoapp.config.rate_limit.RateLimitConfig;
 import com.example.todoapp.exception.RateLimitExceededException;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.ConsumptionProbe;

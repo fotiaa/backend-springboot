@@ -1,4 +1,4 @@
-package com.example.todoapp.config;
+package com.example.todoapp.config.cache;
 
 import io.lettuce.core.RedisURI;
 import org.springframework.cache.annotation.EnableCaching;
